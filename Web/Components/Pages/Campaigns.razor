@@ -1,0 +1,55 @@
+﻿@using Domain.Entities
+@using Application.Services.Campaigns
+
+@page "/campaigns"
+
+@inject ICampaignService CampaignService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Campaigns</PageTitle>
+
+    <h3>Campaign list</h3>
+    <div>
+        <a href="/campaigns/create" class="btn btn-primary mb-3">Add Campaign</a>
+    </div>
+    <table class="table">
+        <thead>
+        <th>Id</th>
+        <th>Name</th>
+        <th>type</th>
+        <th>Description</th>
+        <th>Budget</th>
+        <th>StartDate</th>
+        <th>EndDate</th>
+        <th>Status</th>
+        <th>Action</th>
+        </thead>
+        <tbody>
+            @foreach (var campaign in _campaigns)
+            {
+                <tr>
+                    <td>@campaign.Id</td>
+                    <td>@campaign.Name</td>
+                    <td>@campaign.type</td>
+                    <td>@campaign.Description</td>
+                    <td>@campaign.Budget</td>
+                    <td>@campaign.StartDate</td>
+                    <td>@campaign.EndDate</td>
+                    <td>@campaign.Status</td>
+                    <td>
+                        <a href="/campaigns/@campaign.Id" class="btn btn-primary">Details</a>
+                        <a href="/campaigns/edit/@campaign.Id" class="btn btn-secondary">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+@code {
+List<Campaign> _campaigns = new List<Campaign>();
+
+        protected override void OnInitialized()
+        {
+            _campaigns = CampaignService.GetAllCampaigns();
+        }
+}

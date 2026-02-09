@@ -1,0 +1,49 @@
+@using Domain.Entities
+@using Application.Services.Users
+
+@page "/users"
+
+@inject IUserService UserService
+
+
+<PageTitle>Users</PageTitle>
+
+<h3>User</h3>
+
+<div>
+    <a href="/users/create" class="btn btn-primary mb-3">Add User</a>
+</div>
+
+<table class="table">
+    <thead>
+        <th>Id</th>
+        <th>FullName</th>
+        <th>Phone</th>
+        <th>UserName</th>
+        <th>UserPassword</th>
+    </thead>
+    <tbody>
+        @foreach (var user in _users)
+        {
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.Phone</td>
+                <td>@user.UserName</td>
+                <td>@user.UserPassword</td>
+                <td>
+                    <a href="/users/@user.Id" class="btn btn-primary">Details</a>
+                    <a href="/users/edit/@user.Id" class="btn btn-secondary">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+        List<User> _users = new List<User>();
+
+        protected override void OnInitialized()
+        {
+            _users = UserService.GetAllUsers();
+        }
+}

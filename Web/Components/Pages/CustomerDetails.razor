@@ -1,0 +1,49 @@
+@using Application.Services.Customers
+@using Domain.Entities
+@page "/customers/{Id:int}"
+
+@inject ICustomerService CustomerService
+
+<PageTitle>Customer Detail</PageTitle>
+
+<h1>Customer Detail</h1>
+
+<div>
+    <a href="/customers" class="btn btn-primary mb-3">Back to customers list</a>
+</div>
+
+<div>
+
+@if (customer != null)
+{
+    <dl class="row">
+        <dt class="col-sm-3">Id</dt>
+        <dd class="col-sm-9">@customer.Id</dd>
+
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@customer.Name</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@customer.Email</dd>
+
+        <dt class="col-sm-3">Phone</dt>
+        <dd class="col-sm-9">@customer.Phone</dd>
+
+        <dt class="col-sm-3">Address</dt>
+        <dd class="col-sm-9">@customer.Address</dd>
+
+        <dt class="col-sm-3">City</dt>
+        <dd class="col-sm-9">@customer.City</dd>
+    </dl>
+}
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }    
+    private Customer customer;
+    protected override void OnInitialized()
+    {
+        customer = CustomerService.GetCustomerById(Id);
+    }
+}

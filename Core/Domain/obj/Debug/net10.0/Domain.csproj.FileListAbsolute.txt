@@ -1,0 +1,9 @@
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\bin\Debug\net10.0\Domain.deps.json
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\bin\Debug\net10.0\Domain.dll
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\bin\Debug\net10.0\Domain.pdb
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\obj\Debug\net10.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\obj\Debug\net10.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\obj\Debug\net10.0\Domain.dll
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\obj\Debug\net10.0\refint\Domain.dll
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\obj\Debug\net10.0\Domain.pdb
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Domain\obj\Debug\net10.0\ref\Domain.dll

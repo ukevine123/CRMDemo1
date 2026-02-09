@@ -1,0 +1,56 @@
+﻿@using Domain.Entities
+@using Application.Services.SupportTickets
+
+@page "/support-tickets"
+
+@inject ISupportTicketService SupportTicketService
+@inject NavigationManager NavigationManager
+
+<PageTitle>SupportTicket</PageTitle>
+
+<h3>SupportTicket</h3>
+
+<div>
+    <a href="/support-tickets/create" class="btn btn-primary mb-3">Add Ticket</a>
+</div>
+
+<h2>Hello!</h2>
+
+Welcome to the SupportTicket page.
+
+<table class="table">
+    <thead>
+    <th>Id</th>
+    <th>CustomerId</th>
+    <th>Subject</th>
+    <th>Description</th>
+    <th>Status</th>
+    <th>ResolvedAt</th>
+    </thead>
+    <tbody>
+        @foreach (var ticket in _tickets)
+        {
+            <tr>
+                <td>@ticket.Id</td>
+                <td>@ticket.CustomerId</td>
+                <td>@ticket.Subject</td>
+                <td>@ticket.Description</td>
+                <td>@ticket.Status</td>
+                <td>@ticket.ResolvedAt</td>
+                <td>
+                    <a href="/support-tickets/@ticket.Id" class="btn btn-primary">Details</a>
+                    <a href="/support-tickets/edit/@ticket.Id" class="btn btn-secondary">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+List<SupportTicket> _tickets = new List<SupportTicket>();
+
+        protected override void OnInitialized()
+        {
+            _tickets = SupportTicketService.GetAllTickets();
+        }
+}

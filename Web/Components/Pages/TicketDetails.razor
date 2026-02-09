@@ -1,0 +1,51 @@
+@using Application.Services.SupportTickets
+@using Domain.Entities
+@page "/support-tickets/{Id:int}"
+
+@inject ISupportTicketService SupportTicketService
+
+<PageTitle>Ticket details</PageTitle>
+
+<h3>Ticket details</h3>
+
+<div>
+    <a href="/support-tickets" class="btn btn-primary mb-3">Back to tickets list</a>
+</div>
+
+<div>
+    @if (ticket != null)
+{
+    <dl class="row">
+        <dt class="col-sm-3">Id</dt>
+        <dd class="col-sm-9">@ticket.Id</dd>
+
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@ticket.CustomerId</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@ticket.Subject</dd>
+
+        <dt class="col-sm-3">Phone</dt>
+        <dd class="col-sm-9">@ticket.Description</dd>
+
+        <dt class="col-sm-3">Address</dt>
+        <dd class="col-sm-9">@ticket.Status</dd>
+
+        <dt class="col-sm-3">City</dt>
+        <dd class="col-sm-9">@ticket.CreatedAt</dd>
+
+        <dt class="col-sm-3">City</dt>
+        <dd class="col-sm-9">@ticket.ResolvedAt</dd>
+    </dl>
+}
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }    
+    private SupportTicket ticket;
+    protected override void OnInitialized()
+    {
+        ticket = SupportTicketService.GetTicketById(Id);
+    }
+}

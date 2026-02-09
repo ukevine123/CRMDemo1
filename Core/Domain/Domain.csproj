@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <IncludeSourceRevisionMetadata>false</IncludeSourceRevisionMetadata>
+        <OmitFrameworkReferenceAssemblyAttributes>true</OmitFrameworkReferenceAssemblyAttributes>
+        <EmitCompilerGeneratedFiles>false</EmitCompilerGeneratedFiles>
+        <SuppressEmitConflictingMetadataAttributes>true</SuppressEmitConflictingMetadataAttributes>
+    </PropertyGroup>
+</Project>

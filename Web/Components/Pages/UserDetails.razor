@@ -1,0 +1,46 @@
+@using Application.Services.Users
+@using Domain.Entities
+@page "/users/{Id:int}"
+
+@inject IUserService UserService
+
+<PageTitle>User Details</PageTitle>
+
+<h1>User Details</h1>
+
+<div>
+    <a href="/users" class="btn btn-primary mb-3">Back to users list</a>
+</div>
+
+<div>
+
+@if (user != null)
+{
+    <dl class="row">
+        <dt class="col-sm-3">Id</dt>
+        <dd class="col-sm-9">@user.Id</dd>
+
+        <dt class="col-sm-3">FullName</dt>
+        <dd class="col-sm-9">@user.FullName</dd>
+
+        <dt class="col-sm-3">Phone</dt>
+        <dd class="col-sm-9">@user.Phone</dd>
+
+        <dt class="col-sm-3">UserName</dt>
+        <dd class="col-sm-9">@user.UserName</dd>
+
+        <dt class="col-sm-3">UserPassword</dt>
+        <dd class="col-sm-9">@user.UserPassword</dd>
+    </dl>
+}
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }    
+    private User user;
+    protected override void OnInitialized()
+    {
+        user = UserService.GetUserById(Id);
+    }
+}

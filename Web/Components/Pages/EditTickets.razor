@@ -1,0 +1,88 @@
+@page "/support-tickets/edit/{Id:int}"
+
+@using Domain.Entities
+@using Application.DTO
+@using Application.Services.SupportTickets
+@using System.ComponentModel.DataAnnotations
+@rendermode InteractiveServer
+@inject ISupportTicketService SupportTicketService
+@inject NavigationManager Navigation
+
+<PageTitle>Edit ticket</PageTitle>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Edit ticket</h3>
+                <a href="/support-tickets" class="btn btn-outline-secondary btn-sm">Back to list</a>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <EditForm Model="Model" OnValidSubmit="OnValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="row g-2 mb-2">
+                            <div class="col-md-6">
+                                <label for="Subject">Subject</label>
+                                <InputText id="Subject" @bind-Value="Model.Subject" placeholder="Enter subject" />
+                                <ValidationMessage For="@(() => Model.Subject)" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="Description">Description</label>
+                                <InputText id="Description" @bind-Value="Model.Description" placeholder="Enter description" />
+                                <ValidationMessage For="@(() => Model.Description)" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ResolvedAt">ResolvedAt</label>
+                                <InputDate id="ResolvedAt" @bind-Value="Model.ResolvedAt" placeholder="Enter resolved at" />
+                                <ValidationMessage For="@(() => Model.ResolvedAt)" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="Status">Status</label>
+                                <InputText id="Status" @bind-Value="Model.Status" placeholder="Enter status" />
+                                <ValidationMessage For="@(() => Model.Status)" />
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Create</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter]
+
+    public int Id { get; set; }
+
+    private TicketUpdateDTO Model { get; set; } = new();
+
+    private bool loaded;
+
+    protected override void OnParametersSet()
+    {
+        var ticket = SupportTicketService.GetTicketById(Id);
+        if (ticket != null)
+        {
+            Model = new TicketUpdateDTO
+            {
+               Subject = ticket.Subject ?? "",
+               Description = ticket.Description ?? "",
+               ResolvedAt = ticket.ResolvedAt,
+               Status = ticket.Status ?? ""
+            };
+        }
+        loaded = true;
+    }
+
+    private void OnValidSubmit()
+    {
+        if (Model == null) return;
+        SupportTicketService.UpdateTicket(Id,Model);
+        Navigation.NavigateTo("/support-tickets");
+    }
+}
