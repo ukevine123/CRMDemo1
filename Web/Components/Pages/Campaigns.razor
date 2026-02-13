@@ -8,48 +8,63 @@
 
 <PageTitle>Campaigns</PageTitle>
 
-    <h3>Campaign list</h3>
-    <div>
-        <a href="/campaigns/create" class="btn btn-primary mb-3">Add Campaign</a>
-    </div>
-    <table class="table">
-        <thead>
-        <th>Id</th>
-        <th>Name</th>
-        <th>type</th>
-        <th>Description</th>
-        <th>Budget</th>
-        <th>StartDate</th>
-        <th>EndDate</th>
-        <th>Status</th>
-        <th>Action</th>
-        </thead>
-        <tbody>
-            @foreach (var campaign in _campaigns)
-            {
-                <tr>
-                    <td>@campaign.Id</td>
-                    <td>@campaign.Name</td>
-                    <td>@campaign.type</td>
-                    <td>@campaign.Description</td>
-                    <td>@campaign.Budget</td>
-                    <td>@campaign.StartDate</td>
-                    <td>@campaign.EndDate</td>
-                    <td>@campaign.Status</td>
-                    <td>
-                        <a href="/campaigns/@campaign.Id" class="btn btn-primary">Details</a>
-                        <a href="/campaigns/edit/@campaign.Id" class="btn btn-secondary">Edit</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<h3>Campaign List</h3>
+
+<div>
+    <a href="/campaigns/create" class="btn btn-primary mb-3">Add Customer</a>
+</div>
+
+
+            <MudTable Items="_campaigns" Hover="true" Dense="true">
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>Name</MudTh>
+                    <MudTh>type</MudTh>
+                    <MudTh>Description</MudTh>
+                    <MudTh>Budget</MudTh>
+                    <MudTh>StartDate</MudTh>
+                    <MudTh>EndDate</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Actions</MudTh>
+                </HeaderContent>
+
+                <RowTemplate>
+                    <MudTd>@context.Id</MudTd>
+                    <MudTd>@context.Name</MudTd>
+                    <MudTd>@context.type</MudTd>
+                    <MudTd>@context.Description</MudTd>
+                    <MudTd>@context.Budget</MudTd>
+                    <MudTd>@context.StartDate</MudTd>
+                    <MudTd>@context.EndDate</MudTd>
+                    <MudTd>@context.Status</MudTd>
+                    <MudTd>
+                        @* <a href="/customers/@context.Id" class="btn btn-primary">Details</a> *@
+                        @* <a href="/customers/edit/@context.Id" class="btn btn-secondary">Edit</a> *@
+                        <MudButton 
+                            Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" OnClick="@(() => EditCampaigns(context.Id))">Edit
+                        </MudButton>
+                        <MudButton 
+                            Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Visibility"OnClick="@(() => CampaignDetails(context.Id))">Details
+                        </MudButton>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
 
 @code {
-List<Campaign> _campaigns = new List<Campaign>();
+    List<Campaign> _campaigns = new List<Campaign>();
 
         protected override void OnInitialized()
         {
             _campaigns = CampaignService.GetAllCampaigns();
+        }
+
+        private void EditCampaigns(int campaignId)
+        {
+            NavigationManager.NavigateTo($"/campaigns/edit/{campaignId}");
+        }
+
+        private void CampaignDetails(int campaignId)
+        {
+            NavigationManager.NavigateTo($"/campaigns/{campaignId}");
         }
 }
