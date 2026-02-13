@@ -2,10 +2,11 @@ using Application.Services;
 using Application.Services.Customers;
 using Application.Services.Campaigns;
 using Application.Services.SupportTickets;
-using Application.Services.Users;
+using Application.Services.Identities;
 using Infrastructure.DependencyInjection;
 using Web.Components;
 using MudBlazor.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,8 @@ builder.Services.AddScoped<ICampaignService, CampaignService>();
 builder.Services.AddScoped<ISupportTicketService, SupportTicketService>();
 
   // Register Application Services
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+
 
 // Dependendy Injection for Infrastructure Layer
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -42,6 +44,11 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
+
+//Add authentication
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseAntiforgery();
 

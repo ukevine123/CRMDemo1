@@ -4,18 +4,25 @@
 
 @inject ICustomerService CustomerService
 
+@inject NavigationManager Navigation
+
 <PageTitle>Customer Detail</PageTitle>
 
 <h1>Customer Detail</h1>
 
 <div>
-    <a href="/customers" class="btn btn-primary mb-3">Back to customers list</a>
+    @* <a href="/customers" class="btn btn-primary mb-3">Back to customers list</a> *@
+    <MudButton
+        Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="OnBackToList">Back to List
+    </MudButton>
 </div>
 
 <div>
 
 @if (customer != null)
 {
+<MudCard>
+    <MudCardContent>
     <dl class="row">
         <dt class="col-sm-3">Id</dt>
         <dd class="col-sm-9">@customer.Id</dd>
@@ -35,6 +42,8 @@
         <dt class="col-sm-3">City</dt>
         <dd class="col-sm-9">@customer.City</dd>
     </dl>
+    </MudCardContent>
+</MudCard>
 }
 </div>
 
@@ -45,5 +54,10 @@
     protected override void OnInitialized()
     {
         customer = CustomerService.GetCustomerById(Id);
+    }
+
+    private void OnBackToList()
+    {
+        Navigation.NavigateTo("/customers");
     }
 }

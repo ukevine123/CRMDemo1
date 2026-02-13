@@ -14,42 +14,16 @@
     <a href="/customers/create" class="btn btn-primary mb-3">Add Customer</a>
 </div>
 
-    @* <table class="table">
-        <thead>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Address</th>
-        <th>City</th>
-        </thead>
-        <tbody>
-            @foreach (var customer in _customers)
-            {
-                <tr>
-                    <td>@customer.Id</td>
-                    <td>@customer.Name</td>
-                    <td>@customer.Email</td>
-                    <td>@customer.Phone</td>
-                    <td>@customer.Address</td>
-                    <td>@customer.City</td>
-                    <td>
-                        <a href="/customers/@customer.Id" class="btn btn-primary">Details</a>
-                        <a href="/customers/edit/@customer.Id" class="btn btn-secondary">Edit</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table> *@
 
             <MudTable Items="_customers" Hover="true" Dense="true">
                 <HeaderContent>
                     <MudTh>Id</MudTh>
-                    <MudTh>First Name</MudTh>
+                    <MudTh>Name</MudTh>
                     <MudTh>Email</MudTh>
                     <MudTh>Phone</MudTh>
                     <MudTh>Address</MudTh>
                     <MudTh>City</MudTh>
+                    <MudTh>Actions</MudTh>
                 </HeaderContent>
 
                 <RowTemplate>

@@ -20,28 +20,27 @@
                 <h3>Create customer</h3>
                 @* <a href="/customers" class="btn btn-outline-secondary btn-sm">Back to list</a> *@
                 <MudButton
-                    Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@BackToList">Back to List
+                    Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="OnvalidSubmit">Back to List
                 </MudButton>
 
             </div>
-
-            <div class="card">
-                <div class="card-body">
+            <MudCard>
+                <MudCardContent>
                     <EditForm Model="Model" OnValidSubmit="OnvalidSubmit">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
 
                         <div class="row g-2 mb-2">
                             <div class="col-md-6">
-                                <MudTextField ShrinkLabel @bind-Value="Model.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+                                <MudTextField @bind-Value="Model.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
                                 <ValidationMessage For="@(() => Model.Name)" />
                             </div>
                             <div class="col-md-6">
-                                <MudTextField ShrinkLabel @bind-Value="Model.Email" Label="Email" Variant="Variant.Outlined"></MudTextField>
+                                <MudTextField @bind-Value="Model.Email" Label="Email" Variant="Variant.Outlined"></MudTextField>
                                 <ValidationMessage For="@(() => Model.Email)" />
                             </div>
                             <div class="col-md-6">
-                                <MudTextField ShrinkLabel @bind-Value="Model.Phone" Label="Phone" Variant="Variant.Outlined"></MudTextField>
+                                <MudTextField @bind-Value="Model.Phone" Label="Phone" Variant="Variant.Outlined"></MudTextField>
                                 <ValidationMessage For="@(() => Model.Phone)" />
                             </div>
                             <div class="col-md-6">
@@ -49,15 +48,15 @@
                                 <ValidationMessage For="@(() => Model.Address)" />
                             </div>
                             <div class="col-md-6">
-                                <MudTextField ShrinkLabel @bind-Value="Model.City" Label="City" Variant="Variant.Outlined"></MudTextField>
+                                <MudTextField @bind-Value="Model.City" Label="City" Variant="Variant.Outlined"></MudTextField>
                                 <ValidationMessage For="@(() => Model.City)" />
                             </div>
                             @* <button type="submit" class="btn btn-primary mt-3">Create</button> *@
                             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info"  Size="Size.Small" OnClick="OnvalidSubmit">Save</MudButton>
                         </div>
                     </EditForm>
-                </div>
-            </div>
+                </MudCardContent>
+            </MudCard>
         </div>
     </div>
 </div>
@@ -67,11 +66,6 @@
     private void OnvalidSubmit()
     {
         CustomerService.CreateCustomer(Model);
-        Navigation.NavigateTo("/customers");
-    }
-
-    private void BackToList()
-    {
         Navigation.NavigateTo("/customers");
     }
 }

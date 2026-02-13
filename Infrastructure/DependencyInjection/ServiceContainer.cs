@@ -2,9 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Data;
-using Application.interfaces;
 using Infrastructure.Repositories;
 using Domain.Entities;
+using Infrastructure.Identity;
+using Application.Interfaces;
+using Application.interfaces;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -17,11 +19,16 @@ namespace Infrastructure.DependencyInjection
               services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("CRMDemoSQLConnection")),ServiceLifetime.Scoped
               );
-            
+              //Register identity services
+              services.AddAuthenticationService(configuration);
+
+
+             //Register repositories
             services.AddScoped<ICustomer, CustomerRepository>();
             services.AddScoped<ICampaign, CampaignRepository>();
             services.AddScoped<ITicket, TicketRepository>();
-            services.AddScoped<IUser, UserRepository>();
+            services.AddScoped<IIdentity, IdentityRepos>();
+            // services.AddScoped<IUser, UserRepository>();
 
 
               return services;

@@ -11,3 +11,4 @@ C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Application\obj\Debug\net10.0\
 C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Application\obj\Debug\net10.0\refint\Application.dll
 C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Application\obj\Debug\net10.0\Application.pdb
 C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Application\obj\Debug\net10.0\ref\Application.dll
+C:\Users\KEVINE\source\repos\CRMDemo\CRMDemo\Core\Application\obj\Debug\net10.0\Application.sourcelink.json

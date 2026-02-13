@@ -1,49 +1,57 @@
-@using Domain.Entities
-@using Application.Services.Users
+@using Application.Services.Identities
+@using Application.DTO
+@using Infrastructure.Identity
+@using Microsoft.AspNetCore.Identity
+
 
 @page "/users"
 
-@inject IUserService UserService
+@inject IIdentityService IdentityService
 
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Users</PageTitle>
 
-<h3>User</h3>
+<h3>User List</h3>
 
 <div>
-    <a href="/users/create" class="btn btn-primary mb-3">Add User</a>
+    <a href="/users/Register" class="btn btn-primary mb-3">Add User</a>
 </div>
 
-<table class="table">
-    <thead>
-        <th>Id</th>
-        <th>FullName</th>
-        <th>Phone</th>
-        <th>UserName</th>
-        <th>UserPassword</th>
-    </thead>
-    <tbody>
-        @foreach (var user in _users)
-        {
-            <tr>
-                <td>@user.FullName</td>
-                <td>@user.Phone</td>
-                <td>@user.UserName</td>
-                <td>@user.UserPassword</td>
-                <td>
-                    <a href="/users/@user.Id" class="btn btn-primary">Details</a>
-                    <a href="/users/edit/@user.Id" class="btn btn-secondary">Edit</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+            <MudTable Items="_identity" Hover="true" Dense="true">
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>FullName</MudTh>
+                    <MudTh>Phone</MudTh>
+                    <MudTh>UserName</MudTh>
+                    <MudTh>Created At</MudTh>
+                    <MudTh>Updated At</MudTh>
+                    <MudTh>Actions</MudTh>
+                </HeaderContent>
+
+                <RowTemplate>
+                    <MudTd>@context.Id</MudTd>
+                    <MudTd>@context.FullName</MudTd>
+                    <MudTd>@context.Phone</MudTd>
+                    <MudTd>@context.UserName</MudTd>
+                    <MudTd>@context.CreatedAt</MudTd>
+                    <MudTd>@context.UpdatedAt</MudTd>
+                </RowTemplate>
+            </MudTable>
 
 @code {
-        List<User> _users = new List<User>();
+    private List<UserDetailDTO> _identity = new List<UserDetailDTO>();
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            _users = UserService.GetAllUsers();
+            await LoadUsers();
         }
+
+        private async Task LoadUsers()
+        {
+            _identity = await IdentityService.GetAllUsers();
+        }
+
 }
