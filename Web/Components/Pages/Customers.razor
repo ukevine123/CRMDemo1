@@ -1,66 +1,104 @@
-﻿@using Domain.Entities
+﻿@page "/Customers"
+
 @using Application.Services.Customers
+@using Domain.Entities
+@using MudBlazor
+@inject IDialogService DialogService
+@inject ICustomerService CustomerService 
 
-@page "/customers"
+<PageTitle>Customer</PageTitle>
 
-@inject ICustomerService CustomerService
-@inject NavigationManager NavigationManager
+<h3>Welcome to Customers page</h3>
 
-<PageTitle>Customers</PageTitle>
+<div> 
+@* <a href="/Customers/create" class="btn btn-secondary">Add Customer</a> *@
+      @* <MudButton Href="/Customers/create" Variant="Variant.Filled" Color="Color.Primary">Add Customer</MudButton> *@
+<MudSpacer />
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">Add Customer</MudButton>
 
-<h3>Customer List</h3>
-
-<div>
-    <a href="/customers/create" class="btn btn-primary mb-3">Add Customer</a>
 </div>
-
-
-            <MudTable Items="_customers" Hover="true" Dense="true">
+<MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
+    <MudPaper Elevation="0" Class="mb-6">
+        <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Class="p-6">
+            <MudTable Items="_customers" Hover="true" Bordered="true" Striped="true">
                 <HeaderContent>
                     <MudTh>Id</MudTh>
                     <MudTh>Name</MudTh>
                     <MudTh>Email</MudTh>
-                    <MudTh>Phone</MudTh>
                     <MudTh>Address</MudTh>
+                    <MudTh>Phone</MudTh>
                     <MudTh>City</MudTh>
-                    <MudTh>Actions</MudTh>
+                    <MudTh>Action</MudTh>
                 </HeaderContent>
-
                 <RowTemplate>
-                    <MudTd>@context.Id</MudTd>
-                    <MudTd>@context.Name</MudTd>
-                    <MudTd>@context.Email</MudTd>
-                    <MudTd>@context.Phone</MudTd>
-                    <MudTd>@context.Address</MudTd>
-                    <MudTd>@context.City</MudTd>
-                    <MudTd>
-                        @* <a href="/customers/@context.Id" class="btn btn-primary">Details</a> *@
-                        @* <a href="/customers/edit/@context.Id" class="btn btn-secondary">Edit</a> *@
-                        <MudButton 
-                            Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" OnClick="@(() => EditCustomer(context.Id))">Edit
-                        </MudButton>
-                        <MudButton 
-                            Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Visibility"OnClick="@(() => CustomerDetails(context.Id))">Details
-                        </MudButton>
-                    </MudTd>
+                    <MudTd >@context.Id</MudTd>
+                    <MudTd >@context.Name</MudTd>
+                    <MudTd >@context.Email</MudTd>
+                    <MudTd >@context.Address</MudTd>
+                    <MudTd >@context.Phone</MudTd>
+                    <MudTd >@context.City</MudTd>f
+                    <MudTd >@context.CreatedAt</MudTd>
+                   
+                    
+                   
+                        <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                            <MudButton Href="@string.Format("/Customers/Edit/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Warning" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.Edit">
+                                Edit
+                            </MudButton>
+                            <MudButton Href="@string.Format("/Customers/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Primary" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.MoreHoriz">
+
+                                View
+                              
+                           </MudButton>
+                        </MudStack>
                 </RowTemplate>
+
             </MudTable>
+            
+     </MudStack>
+     </MudPaper>
+
+</MudContainer>
+  
 
 @code {
-    List<Customer> _customers = new List<Customer>();
-
+        List<Customer> _customers = new List<Customer>();
         protected override void OnInitialized()
+            {
+                _customers = CustomerService.GetAllCustomers();
+            }  
+            protected IDialogReference dialogReference;
+            private Color GetStatusColor(string status)
         {
-            _customers = CustomerService.GetAllCustomers();
+            return status switch
+            {
+                "Active" => Color.Success,
+                "Completed" => Color.Info,
+                "Pending" => Color.Warning,
+                "Cancelled" => Color.Error,
+                _ => Color.Default
+            };
         }
 
-        private void EditCustomer(int customerId)
+        private async Task OpenDialog()
         {
-            NavigationManager.NavigateTo($"/customers/edit/{customerId}");
-        }
+            var dialog = await DialogService.ShowAsync<CreateCustomerDialog>("Add Customer");
+            var result = await dialog.Result;
 
-        private void CustomerDetails(int customerId)
-        {
-            NavigationManager.NavigateTo($"/customers/{customerId}");
+            if (result != null && !result.Canceled)
+            {
+                _customers = CustomerService.GetAllCustomers();
+            }
+        
+        }  
+    
+    
         }
-}

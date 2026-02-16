@@ -1,0 +1,62 @@
+@* @using Application.Services.Identities
+@using Application.DTO
+@using Domain.Entities
+@using Infrastructure.Identity
+@page "/users/{Id:int}"
+
+@inject IIdentityService IdentityService
+
+@inject NavigationManager Navigation
+
+<PageTitle>User Detail</PageTitle>
+
+<h1>User Detail</h1>
+
+<div>
+    @* <a href="/customers" class="btn btn-primary mb-3">Back to customers list</a> *@
+    @* <MudButton
+        Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="OnBackToList">Back to List
+    </MudButton>
+</div>
+
+<div>
+
+@if (user != null)
+{
+<MudCard>
+    <MudCardContent>
+    <dl class="row">
+        <dt class="col-sm-3">Id</dt>
+        <dd class="col-sm-9">@user.Id</dd>
+
+        <dt class="col-sm-3">Full Name</dt>
+        <dd class="col-sm-9">@user.FullName</dd>
+
+        <dt class="col-sm-3">Phone</dt>
+        <dd class="col-sm-9">@user.Phone</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@user.Email</dd>
+
+        <dt class="col-sm-3">User name</dt>
+        <dd class="col-sm-9">@user.UserName</dd>
+    </dl>
+    </MudCardContent>
+</MudCard>
+}
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }    
+    private UserDetailDTO user;
+    protected override async Task OnInitializedAsync()
+    {
+        user = await IdentityService.GetUserById(Id);
+    }
+
+    private void OnBackToList()
+    {
+        Navigation.NavigateTo("/users");
+    }
+} *@ 

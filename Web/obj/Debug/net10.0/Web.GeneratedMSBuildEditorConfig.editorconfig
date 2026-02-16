@@ -61,6 +61,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVDdXN0b21lci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/KEVINE/source/repos/CRMDemo/CRMDemo/Web/Components/Pages/CreateCustomerDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVDdXN0b21lckRpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/KEVINE/source/repos/CRMDemo/CRMDemo/Web/Components/Pages/CreateTickets.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVUaWNrZXRzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -119,6 +123,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/KEVINE/source/repos/CRMDemo/CRMDemo/Web/Components/Pages/TicketDetails.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUaWNrZXREZXRhaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/KEVINE/source/repos/CRMDemo/CRMDemo/Web/Components/Pages/UserDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2VyRGV0YWlscy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/KEVINE/source/repos/CRMDemo/CRMDemo/Web/Components/Pages/Users.razor]
