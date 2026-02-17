@@ -36,5 +36,10 @@ namespace Application.Services.Identities
         {
             await _identity.UpdateUser(id, dto);
         }
+
+        public async Task LogoutAsync()
+        {
+            await _identity.LogoutAsync();
+        }
     }
 }

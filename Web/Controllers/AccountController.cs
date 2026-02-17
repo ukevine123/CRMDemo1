@@ -36,5 +36,11 @@ namespace Web.Controllers
                 : $"/account/login?error=Invalid+email+or+password&returnUrl={Uri.EscapeDataString(returnUrl)}";
             return Redirect(errorUrl);
         }
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _identityService.LogoutAsync();
+            return Redirect("/account/login");
+        }
     }
 }

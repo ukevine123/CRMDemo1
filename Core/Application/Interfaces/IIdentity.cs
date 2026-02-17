@@ -10,5 +10,7 @@ namespace Application.Interfaces
         Task<UserDetailDTO> GetUserById(int id);
         Task UpdateUser(int id, UserUpdateDTO dto);
 
+        Task LogoutAsync();
+
     }
 }

@@ -10,6 +10,6 @@ namespace Application.Services.Identities
         Task<List<UserDetailDTO>> GetAllUsers();
         Task<UserDetailDTO> GetUserById(int id);
         Task UpdateUser(int id, UserUpdateDTO dto);
-
+        Task LogoutAsync();
     }
 }

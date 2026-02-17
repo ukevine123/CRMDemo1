@@ -116,5 +116,10 @@ namespace Infrastructure.Identity
                 throw new InvalidOperationException($"Failed to update user: {errors}");
             }
         }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }
