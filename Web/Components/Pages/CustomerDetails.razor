@@ -1,5 +1,7 @@
 @using Application.Services.Customers
 @using Domain.Entities
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @page "/customers/{Id:int}"
 
 @inject ICustomerService CustomerService

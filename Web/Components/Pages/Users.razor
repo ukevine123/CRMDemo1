@@ -38,6 +38,17 @@
                     <MudTd>@context.UserName</MudTd>
                     <MudTd>@context.CreatedAt</MudTd>
                     <MudTd>@context.UpdatedAt</MudTd>
+                    <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                                        <MudButton Href="@string.Format("/users/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Primary" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.MoreHoriz">
+
+                                View
+                              
+                           </MudButton>
+                    </MudStack>
                 </RowTemplate>
             </MudTable>
 

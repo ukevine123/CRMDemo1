@@ -2,7 +2,9 @@
 
 @using Application.Services.Customers
 @using Domain.Entities
+@using Microsoft.AspNetCore.Authorization
 @using MudBlazor
+@attribute [Authorize]
 @inject IDialogService DialogService
 @inject ICustomerService CustomerService 
 

@@ -29,6 +29,9 @@ builder.Services.AddScoped<ISupportTicketService, SupportTicketService>();
   // Register Application Services
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 
+//Add controllers
+builder.Services.AddControllers();
+
 
 // Dependendy Injection for Infrastructure Layer
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -52,6 +55,7 @@ app.UseAuthorization();
 
 app.UseAntiforgery();
 
+app.MapControllers();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

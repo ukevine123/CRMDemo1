@@ -1,5 +1,7 @@
 @using Application.Services.Campaigns
 @using Domain.Entities
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @page "/campaigns/{Id:int}"
 
 @inject ICampaignService CampaignService
