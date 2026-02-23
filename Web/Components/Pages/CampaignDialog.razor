@@ -1,0 +1,61 @@
+@using Application.DTO
+@using Application.Services.Campaigns
+@using System.ComponentModel.DataAnnotations
+@using MudBlazor
+@using MudBlazor.Services
+@using Microsoft.AspNetCore.Components
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@inject ICampaignService CampaignService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<MudDialog>
+<DialogContent>
+    <EditForm Model="Model" OnValidSubmit="onValidSubmit">
+        <DataAnnotationsValidator />
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField Label="Name" @bind-Value="Model.Name" For="@(() => Model.Name)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="type" @bind-Value="Model.type" For="@(() => Model.type)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Description" @bind-Value="Model.Description" For="@(() => Model.Description)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Budget" @bind-Value="Model.Budget" For="@(() => Model.Budget)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudDatePicker Label="Start Date" @bind-Value="Model.StartDate" For="@(() => Model.StartDate)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudDatePicker Label="End Date" @bind-Value="Model.EndDate" For="@(() => Model.EndDate)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Status" @bind-Value="Model.Status" For="@(() => Model.Status)" />
+            </MudItem>
+            
+            <MudItem xs="12" class="d-flex justify-content-end">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Add Campaigns</MudButton>
+            </MudItem>
+        </MudGrid>
+
+    </EditForm>
+</DialogContent>
+</MudDialog>
+    
+@code {
+    [CascadingParameter] IMudDialogInstance DialogInstance { get; set; }
+
+    private CampaignCreateDTO Model {get;set;} = new ();
+   
+
+    private void onValidSubmit()
+    {
+        CampaignService.CreateCampaign(Model);
+        Snackbar.Add("Campaign created successfully!", Severity.Success);
+        DialogInstance.Close();
+    }
+
+    }

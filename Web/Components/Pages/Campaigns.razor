@@ -1,23 +1,26 @@
-﻿@using Domain.Entities
+﻿@page "/Campaigns"
+
 @using Application.Services.Campaigns
+@using Domain.Entities
 @using Microsoft.AspNetCore.Authorization
+@using MudBlazor
 @attribute [Authorize]
+@inject IDialogService DialogService
+@inject ICampaignService CampaignService 
 
-@page "/campaigns"
+<PageTitle>Campaign</PageTitle>
 
-@inject ICampaignService CampaignService
-@inject NavigationManager NavigationManager
+<h3>Welcome to Campaigns page</h3>
 
-<PageTitle>Campaigns</PageTitle>
+<div> 
+<MudSpacer />
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">Add Campaign</MudButton>
 
-<h3>Campaign List</h3>
-
-<div>
-    <a href="/campaigns/create" class="btn btn-primary mb-3">Add Customer</a>
 </div>
-
-
-            <MudTable Items="_campaigns" Hover="true" Dense="true">
+<MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
+    <MudPaper Elevation="0" Class="mb-6">
+        <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Class="p-6">
+            <MudTable Items="_campaigns" Hover="true" Bordered="true" Striped="true">
                 <HeaderContent>
                     <MudTh>Id</MudTh>
                     <MudTh>Name</MudTh>
@@ -27,46 +30,80 @@
                     <MudTh>StartDate</MudTh>
                     <MudTh>EndDate</MudTh>
                     <MudTh>Status</MudTh>
+                    <MudTh>CreatedAt</MudTh>
                     <MudTh>Actions</MudTh>
                 </HeaderContent>
-
                 <RowTemplate>
-                    <MudTd>@context.Id</MudTd>
-                    <MudTd>@context.Name</MudTd>
-                    <MudTd>@context.type</MudTd>
-                    <MudTd>@context.Description</MudTd>
-                    <MudTd>@context.Budget</MudTd>
-                    <MudTd>@context.StartDate</MudTd>
-                    <MudTd>@context.EndDate</MudTd>
-                    <MudTd>@context.Status</MudTd>
-                    <MudTd>
-                        @* <a href="/customers/@context.Id" class="btn btn-primary">Details</a> *@
-                        @* <a href="/customers/edit/@context.Id" class="btn btn-secondary">Edit</a> *@
-                        <MudButton 
-                            Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" OnClick="@(() => EditCampaigns(context.Id))">Edit
-                        </MudButton>
-                        <MudButton 
-                            Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Visibility"OnClick="@(() => CampaignDetails(context.Id))">Details
-                        </MudButton>
-                    </MudTd>
+                    <MudTd >@context.Id</MudTd>
+                    <MudTd >@context.Name</MudTd>
+                    <MudTd >@context.type</MudTd>
+                    <MudTd >@context.Description</MudTd>
+                    <MudTd >@context.Budget</MudTd>
+                    <MudTd >@context.StartDate</MudTd>
+                    <MudTd >@context.EndDate</MudTd>
+                    <MudTd >@context.Status</MudTd>
+                    <MudTd >@context.CreatedAt</MudTd>
+                   
+                    
+                   
+                        <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                            <MudButton Href="@string.Format("/Campaigns/Edit/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Warning" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.Edit">
+                                Edit
+                            </MudButton>
+                            <MudButton Href="@string.Format("/Campaigns/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Primary" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.MoreHoriz">
+
+                                View
+                              
+                           </MudButton>
+                        </MudStack>
                 </RowTemplate>
+
             </MudTable>
+            
+     </MudStack>
+     </MudPaper>
+
+</MudContainer>
+  
 
 @code {
-    List<Campaign> _campaigns = new List<Campaign>();
-
+        List<Campaign> _campaigns = new List<Campaign>();
         protected override void OnInitialized()
+            {
+                _campaigns = CampaignService.GetAllCampaigns();
+            }  
+            protected IDialogReference dialogReference;
+            private Color GetStatusColor(string status)
         {
-            _campaigns = CampaignService.GetAllCampaigns();
+            return status switch
+            {
+                "Active" => Color.Success,
+                "Completed" => Color.Info,
+                "Pending" => Color.Warning,
+                "Cancelled" => Color.Error,
+                _ => Color.Default
+            };
         }
 
-        private void EditCampaigns(int campaignId)
+        private async Task OpenDialog()
         {
-            NavigationManager.NavigateTo($"/campaigns/edit/{campaignId}");
-        }
+            var dialog = await DialogService.ShowAsync<CampaignDialog>("Add Campaign");
+            var result = await dialog.Result;
 
-        private void CampaignDetails(int campaignId)
-        {
-            NavigationManager.NavigateTo($"/campaigns/{campaignId}");
-        }
-}
+            if (result != null && !result.Canceled)
+            {
+                _campaigns = CampaignService.GetAllCampaigns();
+            }
+        
+        }  
+    
+    
+    }
