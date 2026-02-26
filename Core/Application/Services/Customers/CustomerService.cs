@@ -14,9 +14,9 @@ namespace Application.Services.Customers
         {
             _customer = customer;
         }
-       public List<Customer> GetAllCustomers()
+       public List<Customer> GetAllCustomers(CustomerFilter filter)
        {
-          List<Customer> _customers = _customer.GetAllCustomers();
+          List<Customer> _customers = _customer.GetAllCustomers(filter);
           return _customers;
        }
 

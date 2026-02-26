@@ -5,7 +5,7 @@ namespace Application.interfaces
 {
     public interface ICustomer
     {
-        public List<Customer> GetAllCustomers();
+        public List<Customer> GetAllCustomers(CustomerFilter filter);
 
         public Customer GetCustomerById(int id);
 

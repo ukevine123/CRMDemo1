@@ -16,4 +16,12 @@ namespace Application.DTO
         public string Address { get; set; }
         public string City { get; set; }
     }
+    public class CustomerFilter
+    {
+        public string? SearchTerm { get; set; }
+        public string? Name { get; set; }
+        public string? Address { get; set; }
+        public string? City { get; set; }
+
+    }
 }

@@ -15,9 +15,22 @@ namespace Infrastructure.Repositories
         }
         // Retrieving customers
 
-        public List<Customer> GetAllCustomers()
+        public List<Customer> GetAllCustomers(CustomerFilter filter)
         {
-            List<Customer> _customers = _dbContext.Customers.ToList();
+            IQueryable<Customer> query = _dbContext.Customers;
+            if(!string.IsNullOrEmpty(filter.SearchTerm))
+            {
+                query = query.Where(c => c.Name.Contains(filter.SearchTerm));
+            }
+            if(!string.IsNullOrEmpty(filter.Address))
+            {
+                query = query.Where(c => c.Address.Contains(filter.Address));
+            }
+            if(!string.IsNullOrEmpty(filter.City))
+            {
+                query = query.Where(c => c.City.Contains(filter.City));
+            }
+            List<Customer> _customers = query.ToList();
             return _customers;
         }  
         public Customer GetCustomerById(int id)

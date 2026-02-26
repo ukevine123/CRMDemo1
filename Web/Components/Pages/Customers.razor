@@ -1,5 +1,5 @@
 ﻿@page "/Customers"
-
+@using Application.DTO
 @using Application.Services.Customers
 @using Domain.Entities
 @using Microsoft.AspNetCore.Authorization
@@ -19,64 +19,31 @@
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">Add Customer</MudButton>
 
 </div>
-<MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
-    <MudPaper Elevation="0" Class="mb-6">
-        <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Class="p-6">
-            <MudTable Items="_customers" Hover="true" Bordered="true" Striped="true">
-                <HeaderContent>
-                    <MudTh>Id</MudTh>
-                    <MudTh>Name</MudTh>
-                    <MudTh>Email</MudTh>
-                    <MudTh>Address</MudTh>
-                    <MudTh>Phone</MudTh>
-                    <MudTh>City</MudTh>
-                    <MudTh>Created At</MudTh>
-                    <MudTh>Action</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd >@context.Id</MudTd>
-                    <MudTd >@context.Name</MudTd>
-                    <MudTd >@context.Email</MudTd>
-                    <MudTd >@context.Address</MudTd>
-                    <MudTd >@context.Phone</MudTd>
-                    <MudTd >@context.City</MudTd>
-                    <MudTd >@context.CreatedAt</MudTd>
-                   
-                    
-                   
-                        <MudStack Row="true" Spacing="2" Justify="Justify.Center">
-                            <MudButton Href="@string.Format("/Customers/Edit/{0}", context.Id)" 
-                                       Variant="Variant.Filled" 
-                                       Color="Color.Warning" 
-                                       Size="Size.Small"
-                                       StartIcon="@Icons.Material.Filled.Edit">
-                                Edit
-                            </MudButton>
-                            <MudButton Href="@string.Format("/Customers/{0}", context.Id)" 
-                                       Variant="Variant.Filled" 
-                                       Color="Color.Primary" 
-                                       Size="Size.Small"
-                                       StartIcon="@Icons.Material.Filled.MoreHoriz">
+<MudStack>
+    <MudDataGrid Items="@_customers.Take(4)">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" Title="ID" />
+        <PropertyColumn Property="x => x.Name" Title="Name" />
+        <PropertyColumn Property="x => x.Email" />
+        <PropertyColumn Property="x => x.Phone" />
+        <PropertyColumn Property="x => x.Address" />
+        <PropertyColumn Property="x => x.City" Title="City" />
+    </Columns>
+</MudDataGrid>
+<MudPagination Color="Color.Primary" Count="4" @bind-Selected="@_selected"/>
 
-                                View
-                              
-                           </MudButton>
-                        </MudStack>
-                </RowTemplate>
-
-            </MudTable>
-            
-     </MudStack>
-     </MudPaper>
-
-</MudContainer>
+<MudText Align="Align.Center">Selected page: @_selected</MudText>
+</MudStack>
   
 
 @code {
         List<Customer> _customers = new List<Customer>();
+
+            private CustomerFilter _filter = new CustomerFilter();
+            private int _selected = 1;
         protected override void OnInitialized()
             {
-                _customers = CustomerService.GetAllCustomers();
+                _customers = CustomerService.GetAllCustomers(_filter);
             }  
             protected IDialogReference dialogReference;
             private Color GetStatusColor(string status)
@@ -98,7 +65,7 @@
 
             if (result != null && !result.Canceled)
             {
-                _customers = CustomerService.GetAllCustomers();
+                _customers = CustomerService.GetAllCustomers(new CustomerFilter());
             }
         
         }  
